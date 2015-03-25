@@ -14,10 +14,10 @@ threshold :: Double
 threshold = 0.00001
 
 improv :: Double -> Double -> Double
-improv guess x = avarage guess (x/guess)
+improv guess x = average guess (x/guess)
 
-avarage :: Double -> Double -> Double
-avarage = ((/ 2) .) . (+)
+average :: Double -> Double -> Double
+average = ((/ 2) .) . (+)
 
 goodEnough :: Double -> Double -> Bool
 goodEnough guess x = abs (x - guess^2) < threshold
