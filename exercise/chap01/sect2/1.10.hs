@@ -32,7 +32,7 @@ h = ack 2
 -- | ack 2 n = ack 1 (ack 2 (n-1))
 -- | = 2^(ack 2 (n-1))
 -- | ack 2 1 = 2
--- >>> map h [1..4] == (take 4 $ iterate (2^) 2)
+-- >>> map h [1..5] == (take 5 $ iterate (2^) 2)
 -- True
 
 main = do
