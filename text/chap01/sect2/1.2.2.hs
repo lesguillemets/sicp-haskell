@@ -48,4 +48,3 @@ cc' amount (cns@(c:cs))
 
 coins :: [Coin]
 coins = [50, 25, 10, 5, 1]
-
