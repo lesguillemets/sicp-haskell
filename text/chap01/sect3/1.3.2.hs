@@ -1,2 +1,2 @@
--- this section is mostly about lisp syntex, so nothing to do in haskell
--- here.
+-- this section is mostly about lisp/scheme syntex, so nothing to do in
+-- haskell here.
