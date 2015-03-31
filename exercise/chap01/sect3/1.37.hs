@@ -1,5 +1,5 @@
 {-# LANGUAGE BangPatterns #-}
-module OneThirtyseven where
+module Contfrac where
 contFrac :: Fractional a => (Int -> a) -> (Int -> a) -> Int -> a
 contFrac di ni n =
         let iter k = if k == n
