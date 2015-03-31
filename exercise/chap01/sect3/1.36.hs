@@ -17,6 +17,29 @@ fixedPoint tore f firstGuess =
                                           else try next
         in
             try firstGuess
+            
+fixedPointAveDamp :: (Show a, Num a, Ord a, Fractional a)
+    => a -> (a -> a) -> a -> Writer [String] a
+fixedPointAveDamp tore f firstGuess =
+        let closeEnough = closerThan tore
+            try guess = let next = (guess + f guess) / 2 in do
+                tell ["Trying with " ++ show guess]
+                if closeEnough guess next then return next
+                                          else try next
+        in
+            try firstGuess
 
-main = mapM_ print . snd $
-    runWriter (fixedPoint torelance (`logBase` 1000) 3.0)
+main = do
+    let without = runWriter (fixedPoint torelance (`logBase` 1000) 3.0)
+        with = runWriter (fixedPointAveDamp torelance (`logBase` 1000) 3.0)
+    putStrLn . concat $ ["Without Average Damping: took ",
+                        (show . length . snd) without,
+                        " steps"
+                        ]
+    mapM_ putStrLn $ snd without
+    putStrLn . concat $ ["With Average Damping: took ",
+                        (show . length . snd) with,
+                        " steps"
+                        ]
+    mapM_ putStrLn $ snd with
+
