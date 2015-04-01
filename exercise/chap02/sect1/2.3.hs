@@ -3,7 +3,8 @@ module TwoThree where
 data Point = Point {xPoint :: Double, yPoint :: Double} deriving (Show)
 
 -- scheme does not seem to have the notion of type or classes for now,
--- how is polymorphism possible with that? Or we don't need to have two
+-- how is polymorphism possible with that? (We can still "pack" functinos
+-- width and height  to the Rectangle, though.) Or we don't need to have two
 -- definitions coexist?
 class Rectangle r where
     width :: r -> Double
