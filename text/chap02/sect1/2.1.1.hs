@@ -1,16 +1,16 @@
 module ArithmeticRats where
 
-data Rat' =  Rat' {number' :: Int,  denom' :: Int} deriving (Show)
+data Rat' =  Rat' {numer' :: Int,  denom' :: Int} deriving (Show)
 
 instance Eq Rat' where
-    x == y = number' x * denom' y == number' y * denom' x
+    x == y = numer' x * denom' y == numer' y * denom' x
 
 instance Num Rat' where
     x + y = Rat' n d where
-        n = number' x * denom' y + number' y * denom' x
+        n = numer' x * denom' y + numer' y * denom' x
         d = denom' x * denom' y
     x * y = Rat' n d where
-        n = number' x * number' y
+        n = numer' x * numer' y
         d = denom' x * denom' y
     negate (Rat' n d) = Rat' (-n) d
     abs (Rat' n d) = Rat' (abs n) (abs d)
