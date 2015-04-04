@@ -37,3 +37,57 @@ divInterval i0 i1 = mulInterval i0 $
 subInterval :: Interval -> Interval -> Interval
 subInterval i0 i1 = makeInterval
         (lowerBnd i0 - upperBnd i1) (upperBnd i0 - lowerBnd i1)
+
+-- Ex 2.9.
+width :: Interval -> Double
+width i = (upperBnd i - lowerBnd i) / 2
+
+-- (m0-w0, m0+w0) + (m1-w1, m1+w1) = (m-w, m+w) where
+-- m := m0+m1, w := m0+m1
+-- the width of (m0-w0, m0+w0) * (m1-w1, m1+w1) contains m0, m1 in them
+
+-- Ex 2.10.
+multiInterval' :: Interval -> Interval -> Maybe Interval
+multiInterval' i0 i1 = if spanZero i0 || spanZero i1
+                           then Nothing
+                           else Just (mulInterval i0 i1)
+spanZero :: Interval -> Bool
+spanZero i = lowerBnd i * upperBnd i < 0
+
+-- Ex 2.11.
+data Sign = Negative | Positive | Spanning
+sign :: Interval -> Sign
+sign i = case (lowerBnd i `compare` 0, upperBnd i `compare` 0) of
+             (GT,GT) -> Positive
+             (LT,LT) -> Negative
+             _  -> Spanning
+
+
+mulInterval'' :: Interval -> Interval -> Interval
+mulInterval'' i0@(l0,l1) i0'@(l0',l1') =
+        case (sign i0, sign i0') of
+            (Positive, Positive) -> makeInterval (l0*l0') (l1*l1')
+            (Positive, Spanning) -> makeInterval (l1*l0') (l1*l1')
+            (Positive, Negative) -> makeInterval (l1*l0') (l0*l1')
+            (Spanning, Positive) -> makeInterval (l0*l1') (l1*l1')
+            (Spanning, Spanning) -> makeInterval (min (l0*l1') (l1*l0'))
+                                                 (max (l1*l1') (l0*l0'))
+            (Spanning, Negative) -> makeInterval (l1*l0') (l0*l0')
+            (Negative, Positive) -> makeInterval (l0*l1') (l1*l0')
+            (Negative, Spanning) -> makeInterval (l0*l1') (l0*l0')
+            (Negative, Negative) -> makeInterval (l1*l1') (l0*l0')
+
+-- |
+-- >>> let nums = [(2,3), (-4,3), (-10,-2)] :: [(Double,Double)]
+-- >>> let takeDiff (p,q) (r,s) = (abs (p-r), abs (q-s))
+-- >>> let f x y = print $ takeDiff (mulInterval x y) (mulInterval'' x y)
+-- >>> mapM_ (uncurry f) [(x,y) | x <- nums, y <- nums]
+-- (0.0,0.0)
+-- (0.0,0.0)
+-- (0.0,0.0)
+-- (0.0,0.0)
+-- (0.0,0.0)
+-- (0.0,0.0)
+-- (0.0,0.0)
+-- (0.0,0.0)
+-- (0.0,0.0)
