@@ -91,3 +91,28 @@ mulInterval'' i0@(l0,l1) i0'@(l0',l1') =
 -- (0.0,0.0)
 -- (0.0,0.0)
 -- (0.0,0.0)
+
+-- Ex 2.12
+makeCenterWidth :: Double -> Double -> Interval
+makeCenterWidth c w = makeInterval (c-w) (c+w)
+
+center :: Interval -> Double
+center i = (lowerBnd i + upperBnd i) / 2
+
+-- percent/100
+ratio :: Interval -> Double
+ratio i = width i / center i
+makeCenterRatio :: Double -> Double -> Interval
+makeCenterRatio c r = makeCenterWidth c (c*r)
+
+-- Ex 2.13
+-- (1±r0) * (1±r1) = 1 ْْ± r0+r1 + r0r1 ~= 1 ± (r0+r1)
+
+-- | Ex 2.14
+-- >>> import Text.Printf
+-- >>> let a = makeCenterRatio 2 0.01
+-- >>> let b = makeCenterRatio 4 0.02
+-- >>> printf "%.3f" $ ratio (a `divInterval` a)
+-- 0.020
+-- >>> printf "%.3f" $ ratio (a `divInterval` b)
+-- 0.030
