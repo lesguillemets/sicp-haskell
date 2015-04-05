@@ -1,0 +1,1 @@
+-- see : text/chap01/sect2/1.2.2.hs
