@@ -26,3 +26,8 @@ countLeaves :: TList a -> Int
 countLeaves Nil = 0
 countLeaves (V _) = 1
 countLeaves (Cons p q) = countLeaves p + countLeaves q
+
+schmap :: (a -> b) -> TList a -> TList b
+schmap _ Nil = Nil
+schmap f (V n) = V (f n)
+schmap f (Cons p q) = Cons (schmap f p) (schmap f q)
