@@ -26,7 +26,6 @@ totalWeight mob = totalWeight (rightBranch $ mob)
 
 isBalanced :: TList Int -> Bool
 isBalanced x = totalWeight (rightBranch x) == totalWeight (leftBranch x)
--- need test cases.
 -- |
 -- >>> let lev0 = makeMobile (makeBranch 3 (V 5)) (makeBranch 2 (V 10))
 -- >>> let lev1 = makeMobile (makeBranch 5 lev0) (makeBranch 4 (V 4))
