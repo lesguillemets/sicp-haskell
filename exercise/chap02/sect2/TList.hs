@@ -12,8 +12,12 @@ fromList = list . map V
 
 car :: TList a -> TList a
 car (Cons p _) = p
+car (V _) = error "car of V"
+car Nil = error "car of Nil"
 cdr :: TList a -> TList a
 cdr (Cons _ q) = q
+cdr (V _) = error "cdr of V"
+cdr Nil = error "cdr of Nil"
 
 unpack :: TList a -> a
 unpack (V a) = a
