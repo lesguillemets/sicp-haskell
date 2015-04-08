@@ -41,3 +41,6 @@ main = do
     print $ b
     let c =  makeMobile b b
     print $ c
+    let d = makeMobile (makeBranch 4 c) (makeBranch 5 c)
+    print $ d
+    print . totalWeight $ d
