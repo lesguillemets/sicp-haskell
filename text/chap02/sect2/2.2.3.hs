@@ -86,7 +86,21 @@ sumsToPrime = isPrime . makePairSum
 primeSumPairs :: Int -> [(Int,Int)]
 primeSumPairs = filter sumsToPrime . pairsTo
 -- |
--- >>> import Data.List
 -- >>> sort . map makePairSum $ primeSumPairs 6
 -- [3,5,5,7,7,7,11]
 
+isPrime :: Int -> Bool
+isPrime n = 0 `notElem` [n `mod` i | i <- [2..n-1]]
+
+--
+permutations' :: [a] -> [[a]]
+permutations' = map (map snd) . makePermsNumbered . zip [0..]
+makePermsNumbered :: [(Int,a)] -> [[(Int,a)]]
+makePermsNumbered [] = [[]]
+makePermsNumbered es = concatMap
+    (\x -> map (x:) (makePermsNumbered (remove x es))) es
+    where
+        remove (n,_) = filter ((/= n) . fst)
+-- |
+-- >>> sort (permutations' [1,2,3]) == sort (permutations [1,2,3])
+-- True
