@@ -49,8 +49,6 @@ productOfSquaresOfOddElements = foldl (*) 1 . map square . filter odd
 salaryOfHighestPaidProgrammer :: [Person] -> Double
 salaryOfHighestPaidProgrammer = foldl' max 0 . map salary . filter isProgrammer
 
-
-
 fib :: Int -> Int
 fib = let
     iter a b n = if n == 0
@@ -67,3 +65,28 @@ isProgrammer :: Person -> Bool
 isProgrammer = undefined
 salary :: Person -> Double
 salary = undefined
+
+---
+-- Nested Mappings
+
+pairsTo :: Int -> [(Int,Int)]
+pairsTo = concatMap (\i -> map ((,) i) (enumFromTo 1 (i-1))) . enumFromTo 1
+pT :: Int -> [(Int,Int)]
+pT n = [(i,j) | j <- [1..n], i <- [j+1..n]]
+
+
+-- flatMap is concatMap.
+
+makePairSum :: Num a => (a,a) -> a
+makePairSum = uncurry (+)
+
+sumsToPrime :: (Int,Int) -> Bool
+sumsToPrime = isPrime . makePairSum
+
+primeSumPairs :: Int -> [(Int,Int)]
+primeSumPairs = filter sumsToPrime . pairsTo
+-- |
+-- >>> import Data.List
+-- >>> sort . map makePairSum $ primeSumPairs 6
+-- [3,5,5,7,7,7,11]
+
