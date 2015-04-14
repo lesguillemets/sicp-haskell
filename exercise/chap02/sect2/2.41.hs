@@ -11,7 +11,9 @@ tuplesLessThan' n =
                 \j -> map ((,,) i j) [j+1..n]
                 ) [i+1..n]
         ) [1..n]
-
+-- |
+-- >>> map tuplesLessThan' [1..8] == map tuplesLessThan [1..8]
+-- True
 
 f :: Int -> Int -> [(Int,Int,Int)]
 f n s = filter (\(x,y,z) -> x+y+z == s) . tuplesLessThan' $ n
