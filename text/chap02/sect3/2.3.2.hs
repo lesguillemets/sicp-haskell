@@ -1,4 +1,4 @@
--- module SymbolicDifferentiation where
+module SymbolicDifferentiation where
 
 newtype Var = Var String deriving (Eq)
 instance Show Var where
