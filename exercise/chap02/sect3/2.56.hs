@@ -30,6 +30,7 @@ mkExp :: (Eq a, Num a) => Equation a -> Int -> Equation a
 mkExp _ 0 = Value 1
 mkExp v 1 = v
 mkExp (Value n) e = Value n^e
+mkExp v@(Variable _) e = Exp v e
 mkExp s@(Sum _ _) e = Exp s e
 mkExp (Product a b) e = mkProd (mkExp a e) (mkExp b e)
 mkExp (Exp b ee) e = Exp b (ee+e)
