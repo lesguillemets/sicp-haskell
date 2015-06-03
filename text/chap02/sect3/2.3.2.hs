@@ -4,7 +4,6 @@ newtype Var = Var String deriving (Eq)
 instance Show Var where
     show (Var s) = '\'' : s
 
-
 data Equation a =
         Value a
         | Variable Var
@@ -30,7 +29,7 @@ instance (Show a) => Show (Equation a) where
     show (Value a) = show a
     show (Variable v) = show v
     show (Sum aug adnd) = show aug ++ " + " ++ show adnd
-    show (Product m0 m1) = show m0 ++ "*" ++ show m1
+    show (Product m0 m1) = '(' : show m0 ++ ")*(" ++ show m1 ++ ")"
 
 instance (Num a, Eq a) => Num (Equation a) where
     (+) = mkSum
