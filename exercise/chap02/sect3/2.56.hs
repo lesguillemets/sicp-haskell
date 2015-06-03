@@ -67,3 +67,16 @@ deriv (Product mlpr mlpc) var =
                (mkProd mlpr (deriv mlpc var))
 deriv (Exp bas n) var = -- we trust users, no n < 1!
     (Value . fromIntegral $ n) * mkExp bas (n-1) * deriv bas var
+
+-- $setup
+-- >>> let x = Variable (Var "x")
+-- >>> let y = Variable (Var "y")
+-- >>> let eqn = 3 * (mkExp x 2) + 4 * (mkExp x 2) * (mkExp y 3) + x*y
+
+-- | deriv by x
+-- >>> deriv eqn (Var "x")
+-- (3)*((2)*('x)) + ((4)*((2)*('x)))*(('y)**(3)) + 'y
+
+-- | deriv by y
+-- >>> deriv eqn (Var "y")
+-- ((4)*(('x)**(2)))*((3)*(('y)**(2))) + 'x
