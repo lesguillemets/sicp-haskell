@@ -54,3 +54,16 @@ deriv (Sum aug adnd) var = mkSum (deriv aug var) (deriv adnd var)
 deriv (Product mlpr mlpc) var =
         mkSum  (mkProd (deriv mlpr var) mlpc)
                (mkProd mlpr (deriv mlpc var))
+
+-- $setup
+-- >>> let x = Variable (Var "x")
+-- >>> let y = Variable (Var "y")
+-- >>> let eqn = 3 * x^2 + 4 * x^2 * y^3 + x*y
+
+-- | deriv by x
+-- >>> deriv eqn (Var "x")
+-- (3)*('x + 'x) + ((4)*('x + 'x))*((('y)*('y))*('y)) + 'y
+
+-- | deriv by y
+-- >>> deriv eqn (Var "y")
+-- ((4)*(('x)*('x)))*(('y + 'y)*('y) + ('y)*('y)) + 'x
