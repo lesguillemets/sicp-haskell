@@ -26,15 +26,17 @@ verboseTree elms n = do
         rightSize = n - (leftSize + 1)
     (leftTree, thisEntry:rightElms) <- verboseTree elms leftSize
     (rightTree,remainingElms) <- verboseTree rightElms rightSize
-    putStrLn "_____"
-    putStrLn $ "n = " ++ show n
-    print $ thisEntry
-    putStrLn $ "leftSize : " ++ show leftSize
-    putStrLn $ "leftTree is : " ++ show leftTree
-    print $ rightElms
-    putStrLn $ "rightTree is  :" ++ show rightTree
-    print $ remainingElms
-    return (Tree thisEntry leftTree rightTree, remainingElms)
+    --     putStrLn "_____"
+    --     putStrLn $ "n = " ++ show n
+    --     print $ thisEntry
+    --     putStrLn $ "leftSize : " ++ show leftSize
+    --     putStrLn $ "leftTree is : " ++ show leftTree
+    --     print $ rightElms
+    --     putStrLn $ "rightTree is  :" ++ show rightTree
+    --     print $ remainingElms
+    let next = (Tree thisEntry leftTree rightTree, remainingElms)
+    print next
+    return next
 
 main = do
     a <- verboseTree ([1,3..11]::[Int]) 6
