@@ -1,5 +1,5 @@
 {-# LANGUAGE RankNTypes #-}
-module BTSet (Tree, elemOfSet, adjoinSet) where
+module BTSet where
 
 data Tree a = Tree { entry :: a, lBranch :: Tree a, rBranch :: Tree a }
             | EmptyTree
