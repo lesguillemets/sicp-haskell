@@ -40,15 +40,13 @@ intersectionSet s0@(OLSet (x0:xs0)) s1@(OLSet (x1:xs1)) =
 
 -- 2.61
 adjoinSet :: Ord a => a -> OLSet a -> OLSet a
-adjoinSet x (OLSet []) = OLSet [x]
-adjoinSet x (OLSet sl) = OLSet $ iter x sl
-    where
-        iter n [] = [n]
-        iter n s@(e:es) =
-            case n `compare` e of
-                EQ -> s
-                LT -> n:s
-                GT -> e: iter n es
+adjoinSet x (OLSet sl) = OLSet $ let
+    (pre,post) = span (< x) sl in
+        case post of
+            [] -> pre ++ [x]
+            (h:rest) -> if x == h then sl
+                                  else pre ++ x:post
+
 -- |
 -- >>> adjoinSet 4 a
 -- OLSet [1,2,3,4,6,7,8]
