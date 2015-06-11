@@ -34,3 +34,20 @@ adjoinSet x t@(Tree e l r) =
 -- 3(2(.,.),4(.,.))
 -- 3(2(.,.),4(.,8(.,.)))
 -- 3(2(.,.),4(.,8(.,.)))
+
+fromOrderedList :: Ord a => [a] -> Tree a
+fromOrderedList es = fst $ partialTree es (length es)
+
+partialTree :: [a] -> Int -> (Tree a, [a])
+partialTree elms 0 = (EmptyTree, elms)
+partialTree elms n =
+        let leftSize = (n-1) `div` 2
+            rightSize = n - (leftSize +1)
+            (leftTree, thisEntry:rightElms) = partialTree elms leftSize
+            (rightTree,remainingElms) = partialTree rightElms rightSize
+            in
+                (Tree thisEntry leftTree rightTree, remainingElms)
+-- |
+-- >>> fromOrderedList [1,3..11]
+-- 5(1(.,3(.,.)),9(7(.,.),11(.,.)))
+

@@ -16,19 +16,6 @@ instance Foldable Tree where
 unionSets :: Ord a => Tree a -> Tree a -> Tree a
 unionSets t0 t1 = fromOrderedList $ joinOrdered (toList t0) (toList t1)
 
-fromOrderedList :: Ord a => [a] -> Tree a
-fromOrderedList es = fst $ partialTree es (length es)
-
-partialTree :: [a] -> Int -> (Tree a, [a])
-partialTree elms 0 = (EmptyTree, elms)
-partialTree elms n =
-        let leftSize = (n-1) `div` 2
-            rightSize = n - (leftSize +1)
-            (leftTree, thisEntry:rightElms) = partialTree elms leftSize
-            (rightTree,remainingElms) = partialTree rightElms rightSize
-            in
-                (Tree thisEntry leftTree rightTree, remainingElms)
-
 toList :: Tree a -> [a]
 toList = F.foldr (:) []
 
