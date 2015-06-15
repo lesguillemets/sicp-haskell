@@ -43,7 +43,7 @@ decode bits tree =
     let
         decode1 [] _ = []
         decode1 (b:bs) cBranch =
-            case chooseBranch b tree of
+            case chooseBranch b cBranch of
                 (Leaf symb _) ->  symb:decode1 bs tree
                 t@(Tree {}) ->  decode1 bs t
     in
@@ -54,3 +54,13 @@ chooseBranch :: Bit -> HTree a -> HTree a
 chooseBranch 0 = _left
 chooseBranch 1 = _right
 chooseBranch _ = error "invalid bit"
+
+--
+adjoinLeafset :: HTree a -> [HTree a] -> [HTree a]
+adjoinLeafset x [] = [x]
+adjoinLeafset x xs =
+    let w = _weight x
+        (pre,post) = span ((< w) . _weight) xs
+        in
+            pre ++ x:post
+
