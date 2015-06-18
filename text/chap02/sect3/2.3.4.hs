@@ -74,7 +74,7 @@ adjoinLeafset x xs =
             pre ++ x:post
 
 mkLeafSet :: [(a,Int)] -> [HTree a]
-mkLeafSet = map (uncurry Leaf) . sortBy (flip compare `on` snd)
+mkLeafSet = map (uncurry Leaf) . sortBy (compare `on` snd)
 
 joinHaffman :: [HTree a] -> HTree a
 joinHaffman [x] = x
