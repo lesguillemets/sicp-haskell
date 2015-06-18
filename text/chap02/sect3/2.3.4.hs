@@ -1,4 +1,4 @@
-module Haffman where
+module Huffman where
 import qualified Data.Map as M
 import Control.Applicative
 import Control.Monad
@@ -77,12 +77,12 @@ adjoinLeafset x xs =
 mkLeafSet :: [(a,Int)] -> [HTree a]
 mkLeafSet = map (uncurry Leaf) . sortBy (compare `on` snd)
 
-joinHaffman :: [HTree a] -> HTree a
-joinHaffman [x] = x
-joinHaffman (t0:t1:ts) = joinHaffman $ adjoinLeafset (mkTree t0 t1) ts
+joinHuffman :: [HTree a] -> HTree a
+joinHuffman [x] = x
+joinHuffman (t0:t1:ts) = joinHuffman $ adjoinLeafset (mkTree t0 t1) ts
 
-mkHaffman :: Ord a => [a] -> HTree a
-mkHaffman = joinHaffman .  mkLeafSet . M.toAscList . frequencies
+mkHuffman :: Ord a => [a] -> HTree a
+mkHuffman = joinHuffman .  mkLeafSet . M.toAscList . frequencies
 
 -- Ex 2.68
 encode :: Ord a => HTree a -> [a] -> [Bit]

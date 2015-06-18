@@ -1,4 +1,4 @@
-import Haffman
+import Huffman
 
 sampleTree :: HTree Char
 sampleTree = mkTree (Leaf 'a' 4)
