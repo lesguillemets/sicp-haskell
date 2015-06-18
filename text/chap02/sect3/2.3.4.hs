@@ -4,6 +4,8 @@ import Control.Applicative
 import Control.Monad
 import Control.Monad.ST
 import Data.STRef
+import Data.List
+import Data.Function
 -- $setup
 -- >>> import Data.List
 
@@ -64,3 +66,5 @@ adjoinLeafset x xs =
         in
             pre ++ x:post
 
+mkLeafSet :: [(a,Int)] -> [HTree a]
+mkLeafSet = map (uncurry Leaf) . sortBy (flip compare `on` snd)
