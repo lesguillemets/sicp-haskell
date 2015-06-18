@@ -68,3 +68,10 @@ adjoinLeafset x xs =
 
 mkLeafSet :: [(a,Int)] -> [HTree a]
 mkLeafSet = map (uncurry Leaf) . sortBy (flip compare `on` snd)
+
+joinHaffman :: [HTree a] -> HTree a
+joinHaffman [x] = x
+joinHaffman (t0:t1:ts) = joinHaffman $ adjoinLeafset (mkTree t0 t1) ts
+
+mkHaffman :: Ord a => [a] -> HTree a
+mkHaffman = joinHaffman .  mkLeafSet . M.toAscList . frequencies
