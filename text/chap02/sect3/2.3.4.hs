@@ -26,7 +26,14 @@ data HTree a = Leaf { _symbol :: a, _weight :: Int}
              | Tree {
                     _left :: HTree a, _right :: HTree a,
                     _symbols :: [a], _weight :: Int
-             } deriving (Show)
+             }
+
+instance Show a => Show (HTree a) where
+    show = unlines . showPart where
+        showPart (Leaf s w) = ["L : \"" ++ show s ++ "\" w:" ++ show w]
+        showPart (Tree l r s w) =
+            ("T: \"" ++ show s ++ "\" w:" ++ show w):
+                concatMap (map ('\t':)) [showPart l, showPart r]
 
 symbols :: HTree a -> [a]
 symbols (Leaf f _) = return f
