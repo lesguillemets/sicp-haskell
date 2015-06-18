@@ -46,9 +46,9 @@ mkTree t0 t1 = Tree t0 t1 sys wei where
 
 --
 type Bit = Int
-decode :: [Bit] -> HTree a -> [a]
-decode [] _ = []
-decode bits tree =
+decode :: HTree a -> [Bit] -> [a]
+decode _ [] = []
+decode tree bits =
     let
         decode1 [] _ = []
         decode1 (b:bs) cBranch =
