@@ -5,6 +5,7 @@ import Control.Monad
 import Control.Monad.ST
 import Data.STRef
 import Data.List
+import Data.Maybe
 import Data.Function
 -- $setup
 -- >>> import Data.List
@@ -82,3 +83,23 @@ joinHaffman (t0:t1:ts) = joinHaffman $ adjoinLeafset (mkTree t0 t1) ts
 
 mkHaffman :: Ord a => [a] -> HTree a
 mkHaffman = joinHaffman .  mkLeafSet . M.toAscList . frequencies
+
+-- Ex 2.68
+encode :: Ord a => HTree a -> [a] -> [Bit]
+encode t = concatMap (fromJust . encodeSymbol t)
+
+encodeSymbol :: Ord a => HTree a -> a -> Maybe [Bit]
+encodeSymbol (Leaf s _) e = if s == e
+                                then Just []
+                                else Nothing
+-- TODO : make it clean
+encodeSymbol (Tree (Leaf s _) r _ _ ) e = if s == e
+                                         then Just [0]
+                                         else liftA (1:) (encodeSymbol r e)
+encodeSymbol (Tree l (Leaf s _) _ _ ) e = if s == e
+                                         then Just [1]
+                                         else liftA (0:) (encodeSymbol l e)
+encodeSymbol (Tree l@Tree{} r@Tree{} _ _) e
+        | e `elem` _symbols l = liftA (0:) (encodeSymbol l e)
+        | e `elem` _symbols r = liftA (1:) (encodeSymbol r e)
+        | otherwise = Nothing
