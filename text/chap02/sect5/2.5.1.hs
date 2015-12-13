@@ -32,9 +32,7 @@ instance Arithmetic Rational where
     mul x y = makeRat (numer x * numer y) (denom x * denom y)
     divide x y = makeRat (numer x * denom y) (denom x * numer y)
 
--- needs UndecidableInstances extension.
--- see : http://stackoverflow.com/questions/3213490/
-instance (Complex a) => Arithmetic a where
+instance Arithmetic Complex where
     add z0 z1 =
         makeFromRealImag
             (realPart z0 + realPart z1)
@@ -49,4 +47,3 @@ instance (Complex a) => Arithmetic a where
     divide z0 z1 = makeFromMagAng
             (magnitude z0 / magnitude z1)
             (angle z0 - angle z1)
--- This isn't good, we can't add ComplexPolar and ComplexRect.

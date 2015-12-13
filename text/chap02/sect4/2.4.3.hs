@@ -1,4 +1,4 @@
-module DataDirected where
+module ComplexNumber where
 -- Couldn't find out how to implement the table, because of the
 -- possible inconsistency of the functions
 -- (Map (TypeName, Operation) f doesn't work because we can't fix the
@@ -9,7 +9,7 @@ module DataDirected where
 -- put can be associated with instance Complex type where op = item.
 -- get can be associated with calling the function.
 
-class Complex a where
+class Show a => Complexy a where
     realPart :: a -> Double
     imagPart :: a -> Double
     magnitude :: a -> Double
@@ -17,9 +17,9 @@ class Complex a where
     makeFromRealImag :: Double -> Double -> a
     makeFromMagAng :: Double -> Double -> a
 
-data ComplexRect = CompR Double Double
+data ComplexRect = CompR Double Double deriving (Show)
 
-instance Complex ComplexRect where
+instance Complexy ComplexRect where
     realPart (CompR r _) = r
     imagPart (CompR _ i) = i
     magnitude z = sqrt $ square (realPart z) + square (imagPart z)
@@ -27,9 +27,9 @@ instance Complex ComplexRect where
     makeFromRealImag = CompR
     makeFromMagAng r a = CompR ((*) r (cos a)) ((*) r (sin a))
 
-data ComplexPolar = CompP Double Double
+data ComplexPolar = CompP Double Double deriving (Show)
 
-instance Complex ComplexPolar where
+instance Complexy ComplexPolar where
     magnitude (CompP r _) = r
     angle (CompP _ a) = a
     realPart z = (*) (magnitude z) (cos (angle z))
@@ -39,3 +39,20 @@ instance Complex ComplexPolar where
 
 square :: Num a => a -> a
 square = (^(2::Int))
+
+data Complex = Rectangular ComplexRect
+             | Polar ComplexPolar
+             deriving (Show)
+
+-- FIXME
+instance Complexy Complex where
+    realPart (Rectangular z) = realPart z
+    realPart (Polar z) = realPart z
+    imagPart (Rectangular z) = imagPart z
+    imagPart (Polar z) = imagPart z
+    magnitude (Rectangular z) = magnitude z
+    magnitude (Polar z) = magnitude z
+    angle (Polar z) = angle z
+    angle (Rectangular z) = angle z
+    makeFromRealImag x y = Rectangular $ makeFromRealImag x y
+    makeFromMagAng x y = Polar $ makeFromMagAng x y
